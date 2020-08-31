@@ -10,10 +10,6 @@ func Save() {
 
 }
 
-func db() {
-	fmt.Println("db")
-}
-
 func init() {
-	fmt.Println("init db")
+
 }
