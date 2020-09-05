@@ -5,12 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	heightLogger "github.com/xdwin/waterheightlogger/controller"
+	heightLogger "github.com/xdwin/waterheightlogger/heightlogger"
 )
-
-func init() {
-	fmt.Println("init main")
-}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
