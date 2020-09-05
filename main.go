@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	db "./db"
+	db "github.com/xdwin/waterheightcontroller/db"
+
+	heightLogger "github.com/xdwin/waterheightcontroller/controller"
 )
 
 func init() {
@@ -20,6 +22,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func handleRoute() {
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/save", heightLogger.Save)
 }
 
 func startServer() {
