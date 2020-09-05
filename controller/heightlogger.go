@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/xdwin/waterheightlogger/db"
-
 	db "github.com/xdwin/waterheightcontroller/db"
 	"gorm.io/gorm"
 )
