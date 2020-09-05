@@ -1,32 +1,41 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
-	db "github.com/xdwin/waterheightcontroller/db"
+	dbInstance "github.com/xdwin/waterheightlogger/db"
 	"gorm.io/gorm"
 )
 
-type height struct {
+// WaterHeight is
+type WaterHeight struct {
 	gorm.Model
-	Height    int
-	CreatedAt string
+	Height int
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+// Handler is the main function for this file
+func Handler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprint(w, "ParseForm() error %v", err)
 		return
 	}
-	height := r.FormValue("height")
+	height, _ := strconv.Atoi(r.FormValue("height"))
+	data := save(height)
+	write(w, data)
 }
 
-func save(height int) {
-	instance := db.Instance
+func save(value int) WaterHeight {
+	db := dbInstance.Instance
+	data := WaterHeight{Height: value}
+
+	db.Create(&data)
+	return data
 }
 
-// Test is
-func Test(w http.ResponseWriter, r *http.Request) {
-	db.Save()
+func write(w http.ResponseWriter, data WaterHeight) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(&data)
 }

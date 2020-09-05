@@ -5,12 +5,14 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 // Instance is a exported variable of a db
 var Instance *gorm.DB
+var env = godotenv.Load()
 
 type connection struct {
 	User     string
@@ -18,11 +20,6 @@ type connection struct {
 	Host     string
 	Port     string
 	Schema   string
-}
-
-// Save is save
-func Save() {
-	fmt.Println("saved")
 }
 
 func initDb() *gorm.DB {
@@ -44,5 +41,5 @@ func initDb() *gorm.DB {
 }
 
 func init() {
-	//Instance = initDb()
+	Instance = initDb()
 }

@@ -5,9 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	db "github.com/xdwin/waterheightcontroller/db"
-
-	heightLogger "github.com/xdwin/waterheightcontroller/controller"
+	heightLogger "github.com/xdwin/waterheightlogger/controller"
 )
 
 func init() {
@@ -17,12 +15,11 @@ func init() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	fmt.Fprintf(w, path)
-	db.Save()
 }
 
 func handleRoute() {
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/save", heightLogger.Save)
+	http.HandleFunc("/save", heightLogger.Handler)
 }
 
 func startServer() {
