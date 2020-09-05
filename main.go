@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	heightLogger "github.com/xdwin/waterheightlogger/heightlogger"
+	heightLogger "github.com/xdwin/waterheightlogger/controller/heightlogger"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
