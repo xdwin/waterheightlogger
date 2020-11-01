@@ -15,7 +15,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func handleRoute() {
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/save", heightLogger.Handler)
+	http.HandleFunc("/log/", heightLogger.Handler)
 }
 
 func startServer() {

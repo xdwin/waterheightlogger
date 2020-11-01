@@ -18,21 +18,35 @@ type WaterHeight struct {
 
 // Handler is the main function for this file
 func Handler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprint(w, "ParseForm() error %v", err)
-		return
+	switch r.URL.Path {
+	case "/log/read":
+		data := read()
+		write(w, data)
+	case "/log/save":
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprint(w, "ParseForm() error %v", err)
+			return
+		}
+		height, _ := strconv.Atoi(r.FormValue("height"))
+		data := save(height)
+		write(w, data)
 	}
-	height, _ := strconv.Atoi(r.FormValue("height"))
-	data := save(height)
-	write(w, data)
 }
 
-func save(value int) WaterHeight {
+func save(height int) WaterHeight {
 	db := dbInstance.Instance
-	data := WaterHeight{Height: value}
+	data := WaterHeight{Height: height}
 
 	db.Create(&data)
 	return data
+}
+
+func read() WaterHeight {
+	result := &WaterHeight{}
+
+	db := dbInstance.Instance
+	db.Last(result)
+	return *result
 }
 
 func write(w http.ResponseWriter, data WaterHeight) {
