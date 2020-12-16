@@ -32,23 +32,12 @@ type WaterHeightArr struct {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/log/read":
-		data := read()
-		write(w, data)
-	case "/log/save":
-		if err := r.ParseForm(); err != nil {
-			fmt.Fprint(w, "ParseForm() error %v", err)
-			return
-		}
-		height, _ := strconv.Atoi(r.FormValue("height"))
-		data := save(height)
-		write(w, data)
-	case "/log/readin":
 		from := r.URL.Query().Get("from")
 		to := r.URL.Query().Get("to")
 
 		if from == "" && to == "" {
-			fmt.Fprint(w, "Params must be filled")
-			return
+			data := read()
+			write(w, data)
 		} else if from != "" && to == "" {
 			fromConcatenated := from + " 00:00:00"
 			data := readFrom(fromConcatenated)
@@ -59,6 +48,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			data := readFromTo(fromConcatenated, toConcatenated)
 			writeArr(w, data)
 		}
+	case "/log/save":
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprint(w, "ParseForm() error %v", err)
+			return
+		}
+		height, _ := strconv.Atoi(r.FormValue("height"))
+		data := save(height)
+		write(w, data)
 	}
 }
 
