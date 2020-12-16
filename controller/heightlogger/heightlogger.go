@@ -40,7 +40,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			write(w, data)
 		} else if from != "" && to == "" {
 			fromConcatenated := from + " 00:00:00"
-			data := readFrom(fromConcatenated)
+			toConcatenated := from + " 23:59:59"
+			data := readFromTo(fromConcatenated, toConcatenated)
 			writeArr(w, data)
 		} else {
 			fromConcatenated := from + " 00:00:00"
