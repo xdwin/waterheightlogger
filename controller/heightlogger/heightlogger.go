@@ -53,7 +53,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprint(w, "ParseForm() error %v", err)
 			return
 		}
-		height, _ := strconv.Atoi(r.FormValue("height"))
+		hhgt := r.Header.Get("Header")
+		fmt.Println(hhgt)
+		height, err := strconv.Atoi(hhgt)
+		fmt.Println(err)
 		data := save(height)
 		write(w, data)
 	}
@@ -105,10 +108,12 @@ func readFromTo(from string, to string) WaterHeightArr {
 
 func write(w http.ResponseWriter, data WaterHeight) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(&data)
 }
 
 func writeArr(w http.ResponseWriter, data WaterHeightArr) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(&data)
 }
